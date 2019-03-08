@@ -1,0 +1,46 @@
+/* Copyright (c) 2017 MIT 6.813/6.831 course staff, all rights reserved.
+ * Redistribution of original or derived work requires permission of course staff.
+ */
+
+/* REMOVE ME - dashed lines and height for debugging */
+#mainColumn {
+  outline: 1px dashed orange;
+  height: 200px;
+}
+
+.container {
+	outline: 1px dashed red;
+}
+
+body {
+	outline: 1px dashed black;
+}
+
+.new-game-btn{
+	position: absolute;
+	border: none;
+	top: 55%;
+	left: 27%;
+	width: 45%;
+	background-color: #bfbfbf; 
+}
+
+.title-name {
+	position: absolute;
+	font-weight: bold;
+	top: 40%;
+	left: 0%;
+	width: 100%;
+	font-size: 40px;
+	color: red;
+	text-align: center;
+}
+.title-bottom {
+	top: 50%
+}
+
+#firstColumn {
+	outline: 1px dashed orange;
+	height: 50em;
+}
+/* Your css code here! */
