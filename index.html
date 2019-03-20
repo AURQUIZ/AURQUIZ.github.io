@@ -1,7 +1,7 @@
 <!--
 CandyCrush
 Your Name: Alexis Urquiza
-Collaborators: None
+Collaborators: Eric Leon
 -->
 <!DOCTYPE html>
 <html>
@@ -19,7 +19,11 @@ Collaborators: None
 <link rel="stylesheet" href=
   "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
 
+<!-- my main css layout file-->
 <link rel="stylesheet" href="mainLayout.css">
+
+<!-- load google icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <!-- Use mobile-aware viewport -->
 <meta name="viewport" content=
@@ -31,6 +35,7 @@ Collaborators: None
 <script src=
   "https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.2/seedrandom.js">
 </script>
+
 <script src="candy.js"></script>
 <script src="board.js"></script>
 <script src="rules.js"></script>
@@ -82,7 +87,28 @@ rules = new Rules(board);
 // runs at the end of start-up when the page has finished loading.
 $(document).ready(function()
 {
-  // Your code here.
+  
+  // Your code here.\
+  var candyBoard = document.getElementById('candyBoard');
+  candyBoard.innerHTML = "";
+
+  for(var i = 0; i < 8; i++)
+  {
+    var row_cell = document.createElement('tr');
+    row_cell.innerHTML = "";
+    for(var j = 0; j < 8; j++)
+    {
+      var column_cell = document.createElement('td');
+      column_cell.innerHTML = String.fromCharCode("A".charCodeAt() + j) + (i+1);;
+      row_cell.appendChild(column_cell);
+    }
+    candyBoard.appendChild(row_cell);
+
+  }
+
+  document.div.appendChild(candyBoard);
+  
+  rules.prepareNewGame();
 });
 
 
@@ -93,6 +119,7 @@ $(document).ready(function()
 $(board).on('add', function(e, info)
 {
   // Your code here.
+  console.log(info);
 });
 
 // move a candy on the board
@@ -134,24 +161,50 @@ $(document).on('keydown', function(evt) {
 
 <div class="container">
   <div class="row">
-    <div class="col-md-4" id="firstColumn">
+    <div class="col-md-3" id="firstColumn">
+      <div>
       <!-- Column 1 Code Here -->
       <div class="title-name"> Candy <div class="title-bottom">Crush</div> </div>
       <button class="btn new-game-btn"> New Game </button>
 
+      </div>
   </div>
 
-    <div class="col-md-4" id="mainColumn">
+    <div class="col-md-6" id="mainColumn">
 
       <!-- Column 2 Code Here -->
-      Column 2
+      <table id="candyBoard">
+
+      </table>
 
     </div>
 
-    <div class="col-md-4" id="lastColumn">
+    <div class="col-md-3" id="lastColumn">
 
       <!-- Column 3 Code Here -->
-      Column 3
+      <button class="btn up-button">
+        <i class="material-icons">arrow_upward</i>
+      </button>
+
+      <button class="btn down-button">
+        <i class="material-icons">arrow_downward</i>
+      </button>
+
+      <button class="btn left-button">
+        <i class="material-icons">arrow_back</i>
+      </button>
+
+      <button class="btn right-button">
+        <i class="material-icons">arrow_forward</i>
+      </button>
+
+      <button class="btn crush-button">
+        Crush Once
+      </button>
+
+      <p class="Move">Move:</p>
+
+      <input type="text" id="ex3" class="form-control form-control-sm player-input" name="move-input">
 
     </div>
   </div> <!-- class="row" -->

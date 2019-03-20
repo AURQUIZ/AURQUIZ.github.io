@@ -3,17 +3,40 @@
  */
 
 /* REMOVE ME - dashed lines and height for debugging */
-#mainColumn {
-  outline: 1px dashed orange;
-  height: 100%;
-}
-
-.container {
-	outline: 1px dashed red;
-}
-
 body {
 	outline: 1px dashed black;
+}
+
+/* -------------------------------------------------------------------------------------------------------------------------------------*/
+/* everything below this line is Main column */
+/* -------------------------------------------------------------------------------------------------------------------------------------*/
+#mainColumn {
+	height: 965px;
+	outline: 1px dashed blue;
+}
+
+#candyBoard {
+	position: absolute;
+	top: 20%;
+	left: 8%;
+	border: 3px solid black;
+  	width: 320px;
+  	height: 320px;
+}
+
+td{
+  padding: 20px;
+  border: 1px solid black;
+
+}
+/* -------------------------------------------------------------------------------------------------------------------------------------*/
+/* everything below this line is first column */
+/* -------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+#firstColumn {
+	outline: 1px dashed orange;
+	height: 965px;
 }
 
 .new-game-btn{
@@ -39,9 +62,64 @@ body {
 .title-bottom {
 	top: 50%
 }
-
-#firstColumn {
-	/* outline: 1px dashed orange; */
-	height: 50em;
+/* -------------------------------------------------------------------------------------------------------------------------------------*/
+/* everything below this line is third column */
+/* -------------------------------------------------------------------------------------------------------------------------------------*/
+.up-button {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	top: 41%;
+	left: 40%;
+	padding: 13px 13px 13px 13px;
 }
-/* Your css code here! */
+
+.down-button{
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	padding: 10px 10px 10px 10px;
+	top: 52%;
+	left: 40%;
+}
+
+.left-button{
+	position: absolute;
+	width: 65px;
+	height: 50px;
+	top: 46.5%;
+	left: 16.5%;
+	padding: 13px 13px 13px 13px;
+}
+
+.right-button{
+	position: absolute;
+	width: 65px;
+	height: 50px;
+	top: 46.5%;
+	left: 57.5%;
+	padding: 13px 13px 13px 13px;
+}
+
+.crush-button{
+	position: absolute;
+	top: 60%;
+	left: 28%;
+}
+.Move{
+	position: absolute;
+	font-size: 30px;
+	top: 35%;
+	left:12%;
+}
+
+.player-input{
+	position: absolute;
+	top: 36.3%;
+	left:42%;
+}
+
+.material-icons{
+	align-items: center;
+	justify-content: center;
+}
