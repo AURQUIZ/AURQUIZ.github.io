@@ -106,7 +106,7 @@ $(document).ready(function()
 
   }
 
-  document.div.appendChild(candyBoard);
+  //document.div.appendChild(candyBoard);
   
   rules.prepareNewGame();
 });
@@ -118,14 +118,18 @@ $(document).ready(function()
 // add a candy to the board
 $(board).on('add', function(e, info)
 {
-  // Your code here.
-  console.log(info);
+  var candyBoard = document.getElementById("candyBoard");
+  var row = candyBoard.getElementsByTagName("tr")[info.candy.row];
+  var col = row.getElementsByTagName("td")[info.candy.col];
+  col.style.backgroundColor = info.candy.color;
 });
 
 // move a candy on the board
 $(board).on('move', function(e, info)
 {
+  
   // Your code here.
+  console.log(info);
 });
 
 // remove a candy from the board
@@ -140,8 +144,30 @@ $(board).on('scoreUpdate', function(e, info)
   // Your code here. To be implemented in pset 2.
 });
 
+
 // Button Events
-$(document).on('click', "#buttonIDhere", function(evt)
+$(document).on('click', "#up", function(evt)
+{
+  // Your code here.
+  console.log("sazon");
+});
+
+$(document).on('click', "#down", function(evt)
+{
+  // Your code here.
+});
+
+$(document).on('click', "#left", function(evt)
+{
+  // Your code here.
+});
+
+$(document).on('click', "#right", function(evt)
+{
+  // Your code here.
+});
+
+$(document).on('click', "#crush", function(evt)
 {
   // Your code here.
 });
@@ -182,23 +208,23 @@ $(document).on('keydown', function(evt) {
     <div class="col-md-3" id="lastColumn">
 
       <!-- Column 3 Code Here -->
-      <button class="btn up-button">
+      <button class="btn up-button" id="up">
         <i class="material-icons">arrow_upward</i>
       </button>
 
-      <button class="btn down-button">
+      <button class="btn down-button" id="down">
         <i class="material-icons">arrow_downward</i>
       </button>
 
-      <button class="btn left-button">
+      <button class="btn left-button" id="left">
         <i class="material-icons">arrow_back</i>
       </button>
 
-      <button class="btn right-button">
+      <button class="btn right-button" id="right">
         <i class="material-icons">arrow_forward</i>
       </button>
 
-      <button class="btn crush-button">
+      <button class="btn crush-button" id="crush">
         Crush Once
       </button>
 
