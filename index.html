@@ -88,7 +88,6 @@ rules = new Rules(board);
 $(document).ready(function()
 {
   
-  // Your code here.\
   var candyBoard = document.getElementById('candyBoard');
   candyBoard.innerHTML = "";
 
@@ -99,19 +98,75 @@ $(document).ready(function()
     for(var j = 0; j < 8; j++)
     {
       var column_cell = document.createElement('td');
-      column_cell.innerHTML = String.fromCharCode("A".charCodeAt() + j) + (i+1);;
+      column_cell.innerHTML = String.fromCharCode("A".charCodeAt() + j) + (i+1);
       row_cell.appendChild(column_cell);
     }
     candyBoard.appendChild(row_cell);
 
   }
-
-  //document.div.appendChild(candyBoard);
-  
+  // create a new game on the board
   rules.prepareNewGame();
+
+  // disable the crush button
+  document.getElementById("crush").disabled = true;
 });
 
+this.getInputCoords = function()
+{
+  // get value from input
+  var stringInput = document.getElementById("ex3").value;
+  var coords = {X:-1, Y:-1}
 
+  // check if the string from the input bar is null
+  if(stringInput != null)
+  {
+    // convert letter to upper case and then get unicode value and subtract from unicode value of "A"
+    var yCoord = stringInput[0].toUpperCase().charCodeAt() - "A".charCodeAt();
+    var xCoord = stringInput[1] - 1;
+
+    // set coordinates
+    coords.X = xCoord;
+    coords.Y = yCoord;
+  }
+
+  // return coordinates
+  return coords;
+}
+
+// returns buttons to default and disables them and focuses the input bar
+this.clearAndFocusInput = function()
+{
+  var stringInput = document.getElementById("ex3");
+  stringInput.focus();
+  stringInput.value = "";
+  document.getElementById("up").disabled = true;
+  document.getElementById("down").disabled = true;
+  document.getElementById("left").disabled = true;
+  document.getElementById("right").disabled = true;
+  document.getElementById("right").style.backgroundColor = "#bfbfbf";
+  document.getElementById("left").style.backgroundColor = "#bfbfbf";
+  document.getElementById("up").style.backgroundColor = "#bfbfbf";
+  document.getElementById("down").style.backgroundColor = "#bfbfbf";
+  document.getElementById("crush").disabled = false;
+  document.getElementById("crush").style.backgroundColor ="#a028d3";
+}
+
+// function specifically for the timeout function call
+this.slowlyAddCandies = function()
+{
+  // move the candies down
+  rules.moveCandiesDown();
+
+  // enable the crush button if there are more candies to crush
+  if(rules.getCandyCrushes().length > 0){
+    document.getElementById("crush").disabled = false;
+    document.getElementById("crush").style.backgroundColor ="#a028d3";
+  } else{
+    // disable the crush button
+    document.getElementById("crush").disabled = true;
+    document.getElementById("crush").style.backgroundColor ="#bfbfbf";
+  }
+}
 /* Event Handlers */
 // access the candy object with info.candy
 
@@ -121,21 +176,26 @@ $(board).on('add', function(e, info)
   var candyBoard = document.getElementById("candyBoard");
   var row = candyBoard.getElementsByTagName("tr")[info.candy.row];
   var col = row.getElementsByTagName("td")[info.candy.col];
-  col.style.backgroundColor = info.candy.color;
+  col.style.backgroundColor = info.candy.toString();
 });
 
 // move a candy on the board
 $(board).on('move', function(e, info)
 {
-  
-  // Your code here.
-  console.log(info);
+  var candyBoard = document.getElementById("candyBoard");
+  var row = candyBoard.getElementsByTagName("tr")[info.toRow];
+  var col = row.getElementsByTagName("td")[info.toCol];
+  col.style.backgroundColor = info.candy.toString();
 });
 
 // remove a candy from the board
 $(board).on('remove', function(e, info)
 {
-  // Your code here.
+  // remove the candy
+  var candyBoard = document.getElementById("candyBoard");
+  var row = candyBoard.getElementsByTagName("tr")[info.fromRow];
+  var col = row.getElementsByTagName("td")[info.fromCol];
+  col.style.backgroundColor = "";
 });
 
 // move a candy on the board
@@ -148,34 +208,149 @@ $(board).on('scoreUpdate', function(e, info)
 // Button Events
 $(document).on('click', "#up", function(evt)
 {
-  // Your code here.
-  console.log("sazon");
+  // get coordinates of the input
+  var coordinates = getInputCoords();
+
+  // get candy at those coordinates
+  var candySource = board.getCandyAt(coordinates.X,coordinates.Y);
+  var candyDest = board.getCandyAt(coordinates.X - 1, coordinates.Y);
+  
+  // flip the candies up
+  if(rules.isMoveTypeValid(candySource,"up")){
+    board.flipCandies(candySource, candyDest);
+  }
+
+
+  // clear and focus the input
+  clearAndFocusInput();
 });
 
 $(document).on('click', "#down", function(evt)
 {
-  // Your code here.
+  // get coordinates of the input
+  var coordinates = getInputCoords();
+
+  // get candy at those coordinates
+  var candySource = board.getCandyAt(coordinates.X,coordinates.Y);
+  var candyDest = board.getCandyAt(coordinates.X + 1, coordinates.Y);
+  
+  // flip the candies down
+  if(rules.isMoveTypeValid(candySource,"down")){
+    board.flipCandies(candySource, candyDest);
+  }
+
+
+  // clear and focus the input
+  clearAndFocusInput();
 });
 
 $(document).on('click', "#left", function(evt)
 {
-  // Your code here.
+  // get coordinates of the input
+  var coordinates = getInputCoords();
+
+  // get candy at those coordinates
+  var candySource = board.getCandyAt(coordinates.X,coordinates.Y);
+  var candyDest = board.getCandyAt(coordinates.X, coordinates.Y - 1);
+  
+  // flip the candies to the left
+  if(rules.isMoveTypeValid(candySource,"left")){
+    board.flipCandies(candySource, candyDest);
+  }
+
+
+  // clear and focus the input
+  clearAndFocusInput();
 });
 
 $(document).on('click', "#right", function(evt)
 {
-  // Your code here.
+  // get coordinates of the input
+  var coordinates = getInputCoords();
+
+  // get candy at those coordinates
+  var candySource = board.getCandyAt(coordinates.X,coordinates.Y);
+  var candyDest = board.getCandyAt(coordinates.X, coordinates.Y + 1);
+  
+  // flip the candies to the right
+  if(rules.isMoveTypeValid(candySource,"right")){
+    board.flipCandies(candySource, candyDest);
+  }
+
+  // clear and focus the input
+  clearAndFocusInput();
 });
+
 
 $(document).on('click', "#crush", function(evt)
 {
-  // Your code here.
+  // remove the candies that are crushable\
+  rules.removeCrushes(rules.getCandyCrushes());
+
+  setTimeout(slowlyAddCandies, 500);
+});
+
+
+
+
+$(document).on('click', "#new-game", function(evt)
+{
+  board.clear();
+  rules.prepareNewGame();
 });
 
 // keyboard events arrive here
-$(document).on('keydown', function(evt) {
-  // Your code here.
+$(document).on('input', function(evt) 
+{
+  // regex to check for proper input
+  var checkTrashInput = /[a-hA-H][1-8]/;
+
+  // get input bar
+  var stringInput = document.getElementById("ex3").value;
+  var isCrushDisabled = document.getElementById("crush").disabled;
+
+  // error checking the input value
+  // check if input matches the regex and if it is of length 2 and if the crush button is disabled
+  if(stringInput.match(checkTrashInput) && stringInput.length == 2 && isCrushDisabled)
+  {
+    // get the coordinates of the candy
+    var coordinates = getInputCoords();
+    var candySource = board.getCandyAt(coordinates.X, coordinates.Y);
+
+    // enable the button if they are crushable
+    if(rules.isMoveTypeValid(candySource,"right")){
+      document.getElementById("right").disabled = false;
+      document.getElementById("right").style.backgroundColor = "#42d7f4";
+    } 
+
+    if(rules.isMoveTypeValid(candySource,"left")){
+      document.getElementById("left").disabled = false;
+      document.getElementById("left").style.backgroundColor = "#42d7f4";
+    } 
+
+    if(rules.isMoveTypeValid(candySource,"up")){
+      document.getElementById("up").disabled = false;
+      document.getElementById("up").style.backgroundColor = "#42d7f4";
+    } 
+
+    if(rules.isMoveTypeValid(candySource,"down")){
+      document.getElementById("down").disabled = false;
+      document.getElementById("down").style.backgroundColor = "#42d7f4";
+    }
+
+  } else{
+    //disable the buttons
+    document.getElementById("right").style.backgroundColor = "#bfbfbf";
+    document.getElementById("left").style.backgroundColor = "#bfbfbf";
+    document.getElementById("up").style.backgroundColor = "#bfbfbf";
+    document.getElementById("down").style.backgroundColor = "#bfbfbf";
+    document.getElementById("up").disabled = true;
+    document.getElementById("down").disabled = true;
+    document.getElementById("left").disabled = true;
+    document.getElementById("right").disabled = true;
+  }
 });
+
 
 
 </script>
@@ -191,7 +366,7 @@ $(document).on('keydown', function(evt) {
       <div>
       <!-- Column 1 Code Here -->
       <div class="title-name"> Candy <div class="title-bottom">Crush</div> </div>
-      <button class="btn new-game-btn"> New Game </button>
+      <button id="new-game" class="btn new-game-btn"> New Game </button>
 
       </div>
   </div>
